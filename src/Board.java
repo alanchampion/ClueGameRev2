@@ -9,8 +9,6 @@ import java.util.Set;
 
 import java.util.Scanner;
 
-
-
 public class Board {
 
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
@@ -30,6 +28,7 @@ public class Board {
 	BoardCell [][] board;
 
 	public Board(String layoutName, String key ){
+		
 		this.layoutName = layoutName;
 		this.key = key;
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
@@ -52,7 +51,8 @@ public class Board {
 		}
 	}
 
-	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException{
+	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
+		
 		String[] entries;
 		String line = " ";
 
@@ -72,7 +72,8 @@ public class Board {
 		readKey.close();
 	}
 
-	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException{
+	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
+		
 		board = new BoardCell[BOARD_SIZE][BOARD_SIZE];
 
 		//Read in each row to string
@@ -113,7 +114,6 @@ public class Board {
 			}
 		}
 		readLayout.close();
-
 	}
 
 	public BoardCell getCellAt(int x, int y){
@@ -121,6 +121,7 @@ public class Board {
 	}
 
 	public Map<BoardCell, LinkedList<BoardCell>> calcAdjacencies(){
+		
 		for (int i = 0; i < numRows; i++){
 			for( int j = 0; j < numCols; j++){
 				LinkedList<BoardCell> temp = new LinkedList<BoardCell>();
@@ -193,13 +194,18 @@ public class Board {
 		}
 		return adjMtx;
 	}
+	
 	public boolean isValid(int x, int y){
-		if(x < 0 || x > numRows - 1 || y < 0 || y > numCols - 1)
+		
+		if(x < 0 || x > numRows - 1 || y < 0 || y > numCols - 1) {
 			return false;
-		else if (! getCellAt(x,y).isWalkway() && getCellAt(x,y).getDoorDirection() == DoorDirection.NONE)
-			return false;			
-		else 
+		}
+		else if (! getCellAt(x,y).isWalkway() && getCellAt(x,y).getDoorDirection() == DoorDirection.NONE) {
+			return false;
+		}
+		else {
 			return true;
+		}
 	}
 
 	public LinkedList<BoardCell> getAdjList(int x, int y){
@@ -211,7 +217,6 @@ public class Board {
 		return targets;
 	}
 
-
 	public int getX(BoardCell c){
 		return c.row;
 	}
@@ -221,6 +226,7 @@ public class Board {
 	}
 
 	public Set<BoardCell> calcTargets(int x, int y, int pathLength){
+		
 		visited.clear();
 		adjCell.clear();
 		targets.clear();
@@ -236,6 +242,7 @@ public class Board {
 	}
 
 	public void findAllTargets(BoardCell cell, int pathLength){
+		
 		LinkedList<BoardCell> tempAdjCell = new LinkedList<BoardCell>(getAdjList(cell.getRow(), cell.getColumn()));
 		for (BoardCell c : tempAdjCell){
 			if(visited.contains(c)){
@@ -251,9 +258,11 @@ public class Board {
 			}
 		}
 	}
+	
 	public int getNumColumns(){
 		return numCols;
 	}
+	
 	public int getNumRows(){
 		return numRows;
 	}
@@ -261,9 +270,14 @@ public class Board {
 	public Map<Character, String> getRooms(){
 		return this.rooms;
 	}
+	
 	public void printCell(BoardCell c){
 		int x = getX(c);
 		int y = getY(c);
 		System.out.println("(" + x + " " + y + ")");
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 }
