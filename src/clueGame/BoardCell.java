@@ -1,3 +1,5 @@
+package clueGame;
+
 public class BoardCell {
 	int row;
 	int column;

@@ -1,3 +1,5 @@
+package tests;
+
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Set;
@@ -8,8 +10,9 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-//import clueGame.Board;
-//import clueGame.BoardCell;
+import clueGame.Board;
+import clueGame.BoardCell;
+import clueGame.BadConfigFormatException;
 
 public class OurAdjTests {
 	// We make the Board static because we can load it one time and 

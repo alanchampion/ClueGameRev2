@@ -1,3 +1,5 @@
+package clueGame;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -41,14 +43,30 @@ public class Board {
 
 	public void initialize(){
 		try {
+			//The board
 			loadRoomConfig();
 			loadBoardConfig();
 			calcAdjacencies();
+			
+			//The cards
+			loadCards();
+			
+			//The people
+			loadPeople();
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 		} catch (FileNotFoundException e){
 			System.out.println(e.getMessage());
 		}
+	}
+
+	private void loadPeople() {
+		// TODO Load Players in as human and computers. Assign colors, names, cards, etc. 
+		
+	}
+
+	private void loadCards() {
+		// TODO Load Cards from files Characters, Rooms, and Weapons
 	}
 
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
@@ -275,9 +293,5 @@ public class Board {
 		int x = getX(c);
 		int y = getY(c);
 		System.out.println("(" + x + " " + y + ")");
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }
