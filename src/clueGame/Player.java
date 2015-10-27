@@ -11,9 +11,10 @@ public abstract class Player {
 	private ArrayList<Card> hand;
 	private ArrayList<Card> knownCards;
 	
-	public Card disproveSuggestion() {
-		return null;
-	}
+	public abstract Card disproveSuggestion();
+	public abstract void makeAccusation();
+	public abstract void makeSuggestion();
+	public abstract void makeMove();
 	
 	public void addCard(Card card) {
 		hand.add(card);

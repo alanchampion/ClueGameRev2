@@ -3,6 +3,7 @@ package clueGame;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -20,25 +21,33 @@ public class Board {
 	private LinkedList<BoardCell> adjCell;
 	private LinkedList<BoardCell> tempAdjCell;
 	private BoardCell temp;
+	private ArrayList<Card> deck;
+	private ArrayList<String> name;
 
 	private int numRows;
 	private int numCols;
 	private String layoutName;
 	private String key;
+	private String playersFile;
+	private String weaponsFile;
 	public static final int BOARD_SIZE = 50;
 
 	BoardCell [][] board;
-
-	public Board(String layoutName, String key ){
+	
+	//Constructor requires the name of the layout file, name of the key file, name of characters file, and name of weapons file. 
+	public Board(String layoutName, String key, String playersList, String weaponsList){
 		
 		this.layoutName = layoutName;
 		this.key = key;
+		this.playersFile = playersList;
+		this.weaponsFile = weaponsList;
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		rooms = new HashMap<Character, String>();
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		adjCell = new LinkedList<BoardCell>();
 		tempAdjCell = new LinkedList<BoardCell>();
+		deck = new ArrayList<Card>();
 	}
 
 	public void initialize(){
@@ -52,7 +61,7 @@ public class Board {
 			loadCards();
 			
 			//The people
-			loadPeople();
+			loadPlayers();
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 		} catch (FileNotFoundException e){
@@ -60,15 +69,40 @@ public class Board {
 		}
 	}
 
-	private void loadPeople() {
-		// TODO Load Players in as human and computers. Assign colors, names, cards, etc. 
+	private void loadPlayers() throws BadConfigFormatException, FileNotFoundException {
 		
 	}
 
-	private void loadCards() {
-		// TODO Load Cards from files Characters, Rooms, and Weapons
+	private void loadCards() throws BadConfigFormatException, FileNotFoundException {
+		//Need 6, no duplicates
+		FileReader fr = new FileReader(weaponsFile);
+		Scanner sc = new Scanner(fr);
+		int startSize = deck.size();
+		String tempName;
+		
+		while(sc.hasNextLine()) {
+			deck.add(new Card(sc.nextLine(), CardType.WEAPON));
+		}
+		if(deck.size() - startSize == 6)
+			throw new BadConfigFormatException();
+		
+		//Need 6, no duplicates
+		startSize = deck.size();
+		fr = new FileReader(playersFile);
+		while(sc.hasNextLine()) {
+			tempName = sc.nextLine();
+			deck.add(new Card(tempName, CardType.PERSON));
+			name.add(tempName);
+		}
+		if(deck.size() - startSize == 6)
+			throw new BadConfigFormatException();
+		
+		Collections.shuffle(deck);
+		
+		//The addition of the rooms happened in loadRoomConfig()
 	}
-
+	
+	//Adds the rooms to the deck as well. 
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		
 		String[] entries;
@@ -86,6 +120,11 @@ public class Board {
 			Character key = new Character(entries[0].charAt(0));
 			String roomName = entries[1].trim();
 			rooms.put(key, roomName);
+			
+			if(entries[2].trim().equals("Card"))
+			{
+				deck.add(new Card(entries[1].trim(), CardType.ROOM));
+			}
 		}
 		readKey.close();
 	}
