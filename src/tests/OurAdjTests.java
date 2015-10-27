@@ -21,7 +21,7 @@ public class OurAdjTests {
 	@BeforeClass
 	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
 		try {
-			board = new Board("Map.csv", "MapKey.txt");
+			board = new Board("Map.csv", "MapKey.txt", "", "");
 			board.initialize();
 		} catch (Exception e) {
 			throw new BadConfigFormatException();

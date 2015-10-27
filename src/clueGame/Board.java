@@ -333,4 +333,8 @@ public class Board {
 		int y = getY(c);
 		System.out.println("(" + x + " " + y + ")");
 	}
+	
+	public static void main(String[] args) {
+		
+	}
 }
