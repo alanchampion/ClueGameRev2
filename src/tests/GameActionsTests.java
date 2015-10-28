@@ -3,12 +3,13 @@ package tests;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.*;
 
 public class GameActionsTests {
-	@Before
+	@BeforeClass
 	public void setup() {
 		
 	}
@@ -16,7 +17,7 @@ public class GameActionsTests {
 	//Checks when an accusation is correct or incorrect
 	@Test
 	public void testAccusation() {
-		fail("Not yet implemented");
+		
 	}
 	
 	//Makes sure that the computer is choosing good places to move to on their turn. 

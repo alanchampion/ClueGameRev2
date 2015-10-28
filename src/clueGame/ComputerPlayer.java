@@ -1,18 +1,15 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.Random;
 
 public class ComputerPlayer extends Player {
 
-	String name;
-	Color color;
-	int row, column;
-
+	Random rand;
+	
 	public ComputerPlayer(String nam, Color col, int x, int y) {
-		name = nam;
-		color = col;
-		row = x;
-		column = y;
+		super(nam, col, x, y);
+		rand = new Random();
 	}
 	
 	// Getters
@@ -47,7 +44,6 @@ public class ComputerPlayer extends Player {
 
 	@Override
 	public void makeSuggestion() {
-		// TODO Auto-generated method stub
 		
 	}
 

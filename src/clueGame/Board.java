@@ -1,5 +1,6 @@
 package clueGame;
 
+import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ public class Board {
 	private BoardCell temp;
 	private ArrayList<Card> deck;
 	private ArrayList<String> name;
+	private Player[] players;
+	private Solution solution;
 
 	private int numRows;
 	private int numCols;
@@ -48,6 +51,7 @@ public class Board {
 		adjCell = new LinkedList<BoardCell>();
 		tempAdjCell = new LinkedList<BoardCell>();
 		deck = new ArrayList<Card>();
+		players = new Player[6];
 	}
 
 	public void initialize(){
@@ -67,10 +71,55 @@ public class Board {
 		} catch (FileNotFoundException e){
 			System.out.println(e.getMessage());
 		}
+		
+		deal();
+	}
+	
+	//Creates the solution and distributes cards. 
+	private void deal() {
+		ArrayList<Card> cards = new ArrayList<Card>();
+		boolean isWeapon = false, isRoom = false, isPerson = false;
+		for(Card card: deck)
+		{
+			if(!isWeapon && card.getType() == CardType.WEAPON){
+				cards.add(card);
+				deck.remove(card);
+				isWeapon = true;
+			}
+			if(!isRoom && card.getType() == CardType.ROOM){
+				cards.add(card);
+				deck.remove(card);
+				isRoom = true;
+			}
+			if(!isPerson && card.getType() == CardType.PERSON){
+				cards.add(card);
+				deck.remove(card);
+				isPerson = true;
+			}
+			if(isPerson && isWeapon && isRoom) {
+				solution = new Solution(cards);
+				break;
+			}
+		}
+		
+		for(Player player: players)
+		{
+			for(int i = 0; i < 3; i++) {
+				player.addCard(deck.get(0));
+				deck.remove(0);
+			}
+		}
 	}
 
 	private void loadPlayers() throws BadConfigFormatException, FileNotFoundException {
+		//TODO Set correct start locations and pass them deck for unknownCards
 		
+		players[0] = new HumanPlayer("Human", Color.RED, 0, 0);
+		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 0, 1);
+		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 2);
+		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 0, 3);
+		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 0, 4);
+		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 0, 5);
 	}
 
 	private void loadCards() throws BadConfigFormatException, FileNotFoundException {
