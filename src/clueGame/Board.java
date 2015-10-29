@@ -367,6 +367,13 @@ public class Board {
 		return solution.testAccusation(accusation.get(0), accusation.get(1), accusation.get(2));
 	}
 	
+	//Checks the suggestion. Returns false if no disprove is found. Otherwise returns true. 
+	public Card checkSuggestion(Player myTurn, ArrayList<Card>  cards) {
+		//TODO Finish this method
+		
+		return null;
+	}
+	
 	//Returns a copy of the solution cards as an Array list. 
 	//Usefully for testing. 
 	public ArrayList<Card> getSolution() {

@@ -15,12 +15,16 @@ public class ComputerPlayer extends Player {
 	
 	@Override
 	public Card disproveSuggestion(ArrayList<Card> suggestion) {
+		ArrayList<Card> tempCards = new ArrayList<Card>();
 		for(Card card : suggestion) {
 			if(hand.contains(card)){
-				return card;
+				tempCards.add(card);
 			}
 		}
-		return null;
+		if(tempCards.isEmpty())
+			return null;
+		else
+			return tempCards.get(rand.nextInt(tempCards.size()));
 	}
 	
 	//This method will work because the computer players should only ever make an accusation
