@@ -3,12 +3,12 @@ package tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
-import java.io.FileReader;
+//import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Scanner;
+//import java.util.Collections;
+//import java.util.Scanner;
 
-import org.junit.Before;
+//import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

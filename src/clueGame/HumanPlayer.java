@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 public class HumanPlayer extends Player {
 
@@ -15,9 +16,9 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public void makeAccusation() {
+	public ArrayList<Card> makeAccusation() {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
@@ -30,6 +31,13 @@ public class HumanPlayer extends Player {
 	public void makeMove() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public Card disproveSuggestion(ArrayList<Card> suggestion) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

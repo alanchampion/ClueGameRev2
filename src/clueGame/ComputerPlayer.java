@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ComputerPlayer extends Player {
@@ -13,18 +14,21 @@ public class ComputerPlayer extends Player {
 	}
 	
 	@Override
-	public Card disproveSuggestion(Card suggestion) {
-		if (hand.contains(suggestion)) {
-			return suggestion;
+	public Card disproveSuggestion(ArrayList<Card> suggestion) {
+		for(Card card : suggestion) {
+			if(hand.contains(card)){
+				return card;
+			}
 		}
-		
 		return null;
 	}
-
+	
+	//This method will work because the computer players should only ever make an accusation
+	//if there are three cards in unknownCards.
+	//The Board will handle the checking of the accusation. 
 	@Override
-	public void makeAccusation() {
-		// TODO Auto-generated method stub
-		
+	public ArrayList<Card> makeAccusation() {
+		return unknownCards;
 	}
 
 	@Override
@@ -35,7 +39,9 @@ public class ComputerPlayer extends Player {
 	@Override
 	public void makeMove() {
 		// TODO Auto-generated method stub
-		
+		if(unknownCards.size() == 3){
+			makeAccusation();
+		}
 	}
 
 }

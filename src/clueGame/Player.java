@@ -12,8 +12,8 @@ public abstract class Player {
 	protected ArrayList<Card> hand;
 	protected ArrayList<Card> knownCards;
 	
-	public abstract Card disproveSuggestion(Card suggestion);
-	public abstract void makeAccusation();
+	public abstract Card disproveSuggestion(ArrayList<Card> suggestion);
+	public abstract ArrayList<Card> makeAccusation();
 	public abstract void makeSuggestion();
 	public abstract void makeMove();
 	

@@ -361,7 +361,18 @@ public class Board {
 		BoardCell cell = getCellAt(x,y);
 		return adjMtx.get(cell);
 	}
-
+	
+	//Checks an accusation. Returns true if accusation is correct. False otherwise. 
+	public boolean checkAccusation(ArrayList<Card> accusation){
+		return solution.testAccusation(accusation.get(0), accusation.get(1), accusation.get(2));
+	}
+	
+	//Returns a copy of the solution cards as an Array list. 
+	//Usefully for testing. 
+	public ArrayList<Card> getSolution() {
+		return new ArrayList<Card>(solution.solutionCards);
+	}
+	
 	public Set<BoardCell> getTargets(){
 		return targets;
 	}
