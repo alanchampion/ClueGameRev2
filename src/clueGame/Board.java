@@ -369,9 +369,19 @@ public class Board {
 	
 	//Checks the suggestion. Returns false if no disprove is found. Otherwise returns true. 
 	public Card checkSuggestion(Player myTurn, ArrayList<Card>  cards) {
-		//TODO Finish this method
+		Card tempCard = null;
 		
-		return null;
+		for(Player player : players)
+		{
+			if(!player.equals(myTurn))
+			{
+				//System.out.println("Not my turn");
+				tempCard = player.disproveSuggestion(cards);
+			}
+			if(tempCard != null)
+				return tempCard;
+		}
+		return tempCard;
 	}
 	
 	//Returns a copy of the solution cards as an Array list. 

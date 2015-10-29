@@ -101,10 +101,10 @@ public class GameActionsTests {
 		ArrayList<Card> wrongCards = new ArrayList<Card>();
 		Card tempCard;
 		
-		assertTrue(board.checkSuggestion(board.players[1],solutionCards) == null);
+		//assertTrue(board.checkSuggestion(board.players[1],solutionCards) == null);
 		
 		//Checks given the wrong cards.
-		tempCard = board.players[0].getHand().get(0);
+		tempCard = board.players[1].getHand().get(0);
 		wrongCards.add(tempCard);
 		switch(tempCard.getType()){
 		case PERSON: 
@@ -123,12 +123,13 @@ public class GameActionsTests {
 			assertTrue(false);
 			break;
 		}
+		
 		//Wrong card is in suggesting players hand
-		assertTrue(board.checkSuggestion(board.players[0],wrongCards) == null);
+		assertTrue(board.checkSuggestion(board.players[1],wrongCards) == null);
 		//Wrong card is in first players hand
-		assertTrue(board.checkSuggestion(board.players[1],wrongCards) == tempCard);
+		assertTrue(board.checkSuggestion(board.players[0],wrongCards) == tempCard);
 		//Wrong card is in last players hand
-		assertTrue(board.checkSuggestion(board.players[6],wrongCards) == tempCard);
+		assertTrue(board.checkSuggestion(board.players[5],wrongCards) == tempCard);
 	}
 	
 	//Checks that making a suggestion works as expected

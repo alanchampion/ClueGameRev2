@@ -21,10 +21,12 @@ public class ComputerPlayer extends Player {
 				tempCards.add(card);
 			}
 		}
-		if(tempCards.isEmpty())
+		if(tempCards.isEmpty()){
 			return null;
-		else
+		}
+		else{
 			return tempCards.get(rand.nextInt(tempCards.size()));
+		}
 	}
 	
 	//This method will work because the computer players should only ever make an accusation
