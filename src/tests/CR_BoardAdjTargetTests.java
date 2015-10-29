@@ -18,8 +18,7 @@ public class CR_BoardAdjTargetTests {
 	private static Board board;
 	@BeforeClass
 	public static void setUp() {
-		board = new Board("ClueLayout.csv", "ClueLegend.txt", "", "");
-		board.initialize();
+		board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
 	}
 
 	// Ensure that player does not move around within room

@@ -12,27 +12,12 @@ public class ComputerPlayer extends Player {
 		rand = new Random();
 	}
 	
-	// Getters
-	public String getName() {
-		return name;
-	}
-
-	public Color getColor() {
-		return color;
-	}
-
-	public int getRow() {
-		return row;
-	}
-
-	public int getColumn() {
-		return column;
-	}
-
-	
 	@Override
-	public Card disproveSuggestion() {
-		// TODO Auto-generated method stub
+	public Card disproveSuggestion(Card suggestion) {
+		if (hand.contains(suggestion)) {
+			return suggestion;
+		}
+		
 		return null;
 	}
 

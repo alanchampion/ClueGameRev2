@@ -26,9 +26,7 @@ public class OurFileInitTests {
 	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
 		// Create a new Board using the valid files. Note that
 		// the default filenames must be attributes of the Board class. 
-		board = new Board("Map.csv", "MapKey.txt", "", "");
-		// Initialize will load BOTH config files 
-		board.initialize();
+		board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
 	}
 	@Test
 	public void testRooms() {
@@ -112,7 +110,7 @@ public class OurFileInitTests {
 		// testing exceptions in lab writeup. 
 		// Note that we are using a LOCAL Board variable, not the static one 
 		// set up by @BeforeClass
-		Board board = new Board("ClueLayoutBadColumns.csv", "ClueLegend.txt", "", "");
+		Board board = new Board("ClueLayoutBadColumns.csv", "ClueLegend.txt", "Characters.txt", "Weapons.txt");
 		// Instead of initialize, we call the two load functions directly
 		board.loadRoomConfig();
 		// This one should throw an exception
@@ -121,14 +119,14 @@ public class OurFileInitTests {
 	// Test that an exception is thrown for a bad config file
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoom() throws BadConfigFormatException, FileNotFoundException {
-		Board board = new Board("ClueLayoutBadRoom.csv", "ClueLegend.txt", "", "");
+		Board board = new Board("ClueLayoutBadRoom.csv", "ClueLegend.txt", "Characters.txt", "Weapons.txt");
 		board.loadRoomConfig();
 		board.loadBoardConfig();
 	}
 	// Test that an exception is thrown for a bad room config file
 	@Test (expected = BadConfigFormatException.class)
 	public void testBadRoomFormat() throws BadConfigFormatException, FileNotFoundException {
-		Board board = new Board("ClueLayout.csv", "ClueLegendBadFormat.txt", "", "");
+		Board board = new Board("ClueLayout.csv", "ClueLegendBadFormat.txt", "Characters.txt", "Weapons.txt");
 		board.loadRoomConfig();
 	}
 }

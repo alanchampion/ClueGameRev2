@@ -1,6 +1,7 @@
 package clueGame;
 
 public class Card {
+
 	private String cardName;
 	private CardType cardType;
 	
@@ -13,5 +14,10 @@ public class Card {
 	}
 	public boolean equals(Card otherCard) {
 		return otherCard.getType() == getType();
+	}
+	
+	@Override
+	public String toString() {
+		return "Card [cardName=" + cardName + ", cardType=" + cardType + "]";
 	}
 }

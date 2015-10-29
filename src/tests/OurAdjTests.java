@@ -21,11 +21,10 @@ public class OurAdjTests {
 	@BeforeClass
 	public static void setUp() throws FileNotFoundException, BadConfigFormatException {
 		try {
-			board = new Board("Map.csv", "MapKey.txt", "", "");
-			board.initialize();
+			board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
 		} catch (Exception e) {
 			throw new BadConfigFormatException();
-			}
+		}
 	}
 
 	// Ensure that player does not move around within room

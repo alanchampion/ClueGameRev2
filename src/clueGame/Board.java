@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -23,9 +24,11 @@ public class Board {
 	private LinkedList<BoardCell> tempAdjCell;
 	private BoardCell temp;
 	private ArrayList<Card> deck;
+	private ArrayList<Card> fullDeck;
 	private ArrayList<String> name;
-	private Player[] players;
+	public Player[] players;
 	private Solution solution;
+	private int[][] startCoords;
 
 	private int numRows;
 	private int numCols;
@@ -51,20 +54,26 @@ public class Board {
 		adjCell = new LinkedList<BoardCell>();
 		tempAdjCell = new LinkedList<BoardCell>();
 		deck = new ArrayList<Card>();
+		name = new ArrayList<String>();
+		fullDeck = new ArrayList<Card>(3);
 		players = new Player[6];
+		startCoords = new int[6][6];
+		
+		initialize();
 	}
 
-	public void initialize(){
+	public void initialize() {
+		
 		try {
-			//The board
+			// Create board and movement locations
 			loadRoomConfig();
 			loadBoardConfig();
 			calcAdjacencies();
 			
-			//The cards
+			// Create the deck
 			loadCards();
 			
-			//The people
+			// Create the players
 			loadPlayers();
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
@@ -72,38 +81,53 @@ public class Board {
 			System.out.println(e.getMessage());
 		}
 		
+		// Deal the deck to players
 		deal();
 	}
 	
 	//Creates the solution and distributes cards. 
 	private void deal() {
+		
+		boolean isWeapon = false;
+		boolean isRoom = false;
+		boolean isPerson = false;
+		
 		ArrayList<Card> cards = new ArrayList<Card>();
-		boolean isWeapon = false, isRoom = false, isPerson = false;
-		for(Card card: deck)
+		ArrayList<Card> cardsToRemove = new ArrayList<Card>();
+		
+		// Create the solution
+		for (Card card: deck)
 		{
+			// Get first weapon card
 			if(!isWeapon && card.getType() == CardType.WEAPON){
 				cards.add(card);
-				deck.remove(card);
+				cardsToRemove.add(card);
 				isWeapon = true;
 			}
+			// Get first room card
 			if(!isRoom && card.getType() == CardType.ROOM){
 				cards.add(card);
-				deck.remove(card);
+				cardsToRemove.add(card);
 				isRoom = true;
 			}
+			// Get first character card
 			if(!isPerson && card.getType() == CardType.PERSON){
 				cards.add(card);
-				deck.remove(card);
+				cardsToRemove.add(card);
 				isPerson = true;
 			}
+			// Create solution after getting each card type
 			if(isPerson && isWeapon && isRoom) {
 				solution = new Solution(cards);
 				break;
 			}
 		}
 		
-		for(Player player: players)
-		{
+		// Remove cards used for solution from the deck
+		deck.removeAll(cardsToRemove);
+		
+		// Deal out remaining cards
+		for(Player player: players) {
 			for(int i = 0; i < 3; i++) {
 				player.addCard(deck.get(0));
 				deck.remove(0);
@@ -112,43 +136,63 @@ public class Board {
 	}
 
 	private void loadPlayers() throws BadConfigFormatException, FileNotFoundException {
-		//TODO Set correct start locations and pass them deck for unknownCards
+		// Create list of players with name, color, and starting locations
+		players[0] = new HumanPlayer("Human", Color.RED, 0, 3);
+		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 6, 0);
+		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 15);
+		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 3, 25);
+		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 8, 25);
+		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 20, 25);
 		
-		players[0] = new HumanPlayer("Human", Color.RED, 0, 0);
-		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 0, 1);
-		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 2);
-		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 0, 3);
-		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 0, 4);
-		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 0, 5);
+		// Give each player a full list of cards
+		players[0].addUnknownCards(deck);
+		players[1].addUnknownCards(deck);
+		players[2].addUnknownCards(deck);
+		players[3].addUnknownCards(deck);
+		players[4].addUnknownCards(deck);
+		players[5].addUnknownCards(deck);
 	}
 
 	private void loadCards() throws BadConfigFormatException, FileNotFoundException {
-		//Need 6, no duplicates
-		FileReader fr = new FileReader(weaponsFile);
-		Scanner sc = new Scanner(fr);
-		int startSize = deck.size();
 		String tempName;
 		
-		while(sc.hasNextLine()) {
-			deck.add(new Card(sc.nextLine(), CardType.WEAPON));
-		}
-		if(deck.size() - startSize == 6)
-			throw new BadConfigFormatException();
+		FileReader frPlayers = new FileReader(playersFile);
+		FileReader frWeapons = new FileReader(weaponsFile);
 		
-		//Need 6, no duplicates
-		startSize = deck.size();
-		fr = new FileReader(playersFile);
+		Scanner sc = new Scanner(frPlayers);
+		int counter = 0;
+		
+		// Get character cards from playersFile
 		while(sc.hasNextLine()) {
 			tempName = sc.nextLine();
 			deck.add(new Card(tempName, CardType.PERSON));
 			name.add(tempName);
+			counter++;
 		}
-		if(deck.size() - startSize == 6)
+		
+		// Check that 6 characters were loaded
+		if (counter != 6) {
 			throw new BadConfigFormatException();
+		}
 		
+		// Get weapon cards from file
+		counter = 0;
+		sc = new Scanner(frWeapons);
+		while(sc.hasNextLine()) {
+			deck.add(new Card(sc.nextLine(), CardType.WEAPON));
+			counter++;
+		}
+		
+		// Check that 6 weapons were loaded
+		if (counter != 6) {
+			throw new BadConfigFormatException();
+		}
+			
+		// Create a copy of the deck that will not be modified
+		fullDeck.addAll(deck);
+		
+		// Shuffle the deck
 		Collections.shuffle(deck);
-		
-		//The addition of the rooms happened in loadRoomConfig()
 	}
 	
 	//Adds the rooms to the deck as well. 
@@ -160,18 +204,17 @@ public class Board {
 		FileReader keyIn = new FileReader(key);
 		Scanner readKey = new Scanner(keyIn);
 
-		while(readKey.hasNextLine()){
+		while (readKey.hasNextLine()) {
 			line = readKey.nextLine();
 			entries = line.split(",");
-			if (entries.length != 3){
+			if (entries.length != 3) {
 				throw new BadConfigFormatException();
 			}
 			Character key = new Character(entries[0].charAt(0));
 			String roomName = entries[1].trim();
 			rooms.put(key, roomName);
 			
-			if(entries[2].trim().equals("Card"))
-			{
+			if (entries[2].trim().equals("Card")) {
 				deck.add(new Card(entries[1].trim(), CardType.ROOM));
 			}
 		}
@@ -365,6 +408,7 @@ public class Board {
 		}
 	}
 	
+	// Getters
 	public int getNumColumns(){
 		return numCols;
 	}
@@ -377,13 +421,24 @@ public class Board {
 		return this.rooms;
 	}
 	
+	// Returns size of the deal-able deck
+	public int getDeckSize() {
+		return deck.size();
+	}
+	// Returns the whole list of cards
+	public ArrayList<Card> getFullDeck() {
+		return fullDeck;
+	}
+	
 	public void printCell(BoardCell c){
 		int x = getX(c);
 		int y = getY(c);
 		System.out.println("(" + x + " " + y + ")");
 	}
 	
-	public static void main(String[] args) {
-		
+	public void printDeck() {
+		for (Card card: deck) {
+			System.out.println(card);
+		}
 	}
 }

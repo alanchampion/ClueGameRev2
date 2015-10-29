@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 import org.junit.Before;
@@ -11,11 +13,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.Board;
-import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
 import clueGame.HumanPlayer;
+import clueGame.Player;
 
 public class GameSetupTests {
 	
@@ -54,6 +56,8 @@ public class GameSetupTests {
 	static ComputerPlayer comp5;
 	
 	private static Board board;
+	private static Player[] players;
+	private static ArrayList<Card> deck;
 	
 	@BeforeClass
 	public static void setUp() {
@@ -86,14 +90,16 @@ public class GameSetupTests {
 		hallCard = new Card("Hall", CardType.ROOM);
 		
 		// Players
-		human = new HumanPlayer("Human", Color.RED, 0, 0);
-		comp1 = new ComputerPlayer("Computer 1", Color.ORANGE, 0, 1);
-		comp2 = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 2);
-		comp3 = new ComputerPlayer("Computer 3", Color.GREEN, 0, 3);
-		comp4 = new ComputerPlayer("Computer 4", Color.BLUE, 0, 4);
-		comp5 = new ComputerPlayer("Computer 5", Color.MAGENTA, 0, 5);
+		players = new Player[6];
+		players[0] = new HumanPlayer("Human", Color.RED, 0, 0);
+		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 0, 1);
+		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 2);
+		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 0, 3);
+		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 0, 4);
+		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 0, 5);
 		
-		board = new Board("", "", "Characters.txt", "Weapons.txt");
+		board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
+		deck = new ArrayList<Card>();
 	}
 	
 	//Makes sure that the people cards are loaded correctly including incorrect texts being imported. 
@@ -101,35 +107,80 @@ public class GameSetupTests {
 	public void testPeople() {
 		
 		// Check name
-		assertEquals(human.getName(), "Human");
-		assertEquals(comp1.getName(), "Computer 1");
-		assertEquals(comp5.getName(), "Computer 5");
+		assertEquals(players[0].getName(), "Human");
+		assertEquals(players[1].getName(), "Computer 1");
+		assertEquals(players[5].getName(), "Computer 5");
 		
 		// Check color
-		assertEquals(human.getColor(), Color.RED);
-		assertEquals(comp1.getColor(), Color.ORANGE);
-		assertEquals(comp5.getColor(), Color.MAGENTA);
+		assertEquals(players[0].getColor(), Color.RED);
+		assertEquals(players[1].getColor(), Color.ORANGE);
+		assertEquals(players[5].getColor(), Color.MAGENTA);
 		
 		// Check starting row
-		assertEquals(human.getRow(), 0);
-		assertEquals(comp1.getRow(), 0);
-		assertEquals(comp5.getRow(), 0);
+		assertEquals(players[0].getRow(), 0);
+		assertEquals(players[1].getRow(), 0);
+		assertEquals(players[5].getRow(), 0);
 		
 		// Check starting column
-		assertEquals(human.getColumn(), 0);
-		assertEquals(comp1.getColumn(), 1);
-		assertEquals(comp5.getColumn(), 5);
+		assertEquals(players[0].getColumn(), 0);
+		assertEquals(players[1].getColumn(), 1);
+		assertEquals(players[5].getColumn(), 5);
 	}
 	
 	//Makes sure that the entire deck is created correctly
 	@Test
 	public void testDeck() {
+		int numRooms = 0;
+		int numPersons = 0;
+		int numWeapons = 0;
 		
+		// Gets the full list of cards
+		deck = board.getFullDeck();
+		
+		// Check to see if deck is of size 21
+		assertEquals(deck.size(), 21);
+		
+		// Count each card's type in deck
+		for (Card card: deck) {
+			if (card.getType() == CardType.ROOM) {
+				numRooms++;
+			}
+			if (card.getType() == CardType.PERSON) {
+				numPersons++;
+			}
+			if (card.getType() == CardType.WEAPON) {
+				numWeapons++;
+			}
+		}
+		// Check to see that there is 9 rooms, 6 characters, and 6 weapons
+		assertEquals(numRooms, 9);
+		assertEquals(numPersons, 6);
+		assertEquals(numWeapons, 6);
 	}
 	
 	//Makes sure that shuffling and dealing works
 	@Test
 	public void testDealer() {
+		ArrayList<Card> hand1 = new ArrayList<Card>(3);
+		ArrayList<Card> hand2 = new ArrayList<Card>(3);
+		ArrayList<Card> hand3 = new ArrayList<Card>(3);
+		hand1 = players[0].getHand();
+		hand2 = players[1].getHand();
+		hand3 = players[5].getHand();
 		
+		
+		// Check to see that deck size is empty after dealing
+		assertEquals(board.getDeckSize(), 0);
+		
+		// Check to see that each player has 3 cards after dealing
+		assertEquals(board.players[0].getHandSize(), 3);
+		assertEquals(board.players[1].getHandSize(), 3);
+		assertEquals(board.players[2].getHandSize(), 3);
+		assertEquals(board.players[3].getHandSize(), 3);
+		assertEquals(board.players[4].getHandSize(), 3);
+		assertEquals(board.players[5].getHandSize(), 3);
+		
+		// Check to ensure no one has an identical hand
+		assertTrue(!(hand1.contains(hand2) || hand2.contains(hand3) || hand3.contains(hand1)));
 	}
 }

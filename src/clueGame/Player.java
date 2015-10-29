@@ -8,11 +8,11 @@ public abstract class Player {
 	protected int row;
 	protected int column;
 	protected Color color;
-	private ArrayList<Card> unknownCards;
-	private ArrayList<Card> hand;
-	private ArrayList<Card> knownCards;
+	protected ArrayList<Card> unknownCards;
+	protected ArrayList<Card> hand;
+	protected ArrayList<Card> knownCards;
 	
-	public abstract Card disproveSuggestion();
+	public abstract Card disproveSuggestion(Card suggestion);
 	public abstract void makeAccusation();
 	public abstract void makeSuggestion();
 	public abstract void makeMove();
@@ -27,16 +27,39 @@ public abstract class Player {
 		column = y;
 	}
 	
+	// Getters
+	public String getName() {
+		return name;
+	}
+	public int getRow() {
+		return row;
+	}
+	public int getColumn() {
+		return column;
+	}
+	public Color getColor() {
+		return color;
+	}
+	public ArrayList<Card> getHand() {
+		return hand;
+	}
+	public int getHandSize() {
+		return hand.size();
+	}
+	
+	// Add card to hand and update information accordingly
 	public void addCard(Card card) {
 		hand.add(card);
 		addInformation(card);
 	}
 	
+	// Add card to known list and remove from unknowns cards
 	public void addInformation(Card card) {
 		knownCards.add(card);
 		unknownCards.remove(card);
 	}
 	
+	// Adds the full deck of cards to the list of unknown cards
 	public void addUnknownCards(ArrayList<Card> deck) {
 		unknownCards.addAll(deck);
 	}
