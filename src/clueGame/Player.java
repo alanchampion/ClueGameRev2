@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class Player {
 	protected String name;
@@ -15,7 +16,7 @@ public abstract class Player {
 	public abstract Card disproveSuggestion(ArrayList<Card> suggestion);
 	public abstract ArrayList<Card> makeAccusation();
 	public abstract ArrayList<Card> makeSuggestion(Card currentRoom);
-	public abstract void makeMove();
+	public abstract void makeMove(Set<BoardCell> targets);
 	
 	public Player(String nam, Color col, int x, int y) {
 		unknownCards = new ArrayList<Card>();

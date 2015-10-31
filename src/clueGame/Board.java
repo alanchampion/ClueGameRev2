@@ -218,6 +218,7 @@ public class Board {
 				deck.add(new Card(entries[1].trim(), CardType.ROOM, key));
 			}
 		}
+		
 		readKey.close();
 	}
 

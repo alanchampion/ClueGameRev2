@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Set;
 
 //import org.junit.Before;
 import org.junit.BeforeClass;
@@ -13,22 +14,12 @@ import clueGame.*;
 
 public class GameActionsTests {
 	static ComputerPlayer com1;
-	/*static ComputerPlayer com2;
-	static ComputerPlayer com3;
-	static ComputerPlayer com4;
-	static ComputerPlayer com5;
-	static ComputerPlayer com6;*/
 	static Board board;
 	static Solution solution;
 	
 	@BeforeClass
 	public static void setup() {
 		com1 = new ComputerPlayer("Com1", Color.RED, 0, 1);
-		/*com2 = new ComputerPlayer("Com2", Color.RED, 0, 1);
-		com3 = new ComputerPlayer("Com3", Color.RED, 0, 1);
-		com4 = new ComputerPlayer("Com4", Color.RED, 0, 1);
-		com5 = new ComputerPlayer("Com5", Color.RED, 0, 1);
-		com6 = new ComputerPlayer("Com6", Color.RED, 0, 1);*/
 		board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
 		solution = new Solution(board.getSolution());
 	}
@@ -135,11 +126,11 @@ public class GameActionsTests {
 	//Checks that making a suggestion works as expected
 	@Test
 	public void testSuggestion() {
-		//TODO write test.
 		ArrayList<Card> suggestion;
 		com1.moveLocation(10,3);
 		suggestion = com1.makeSuggestion(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial()));
 		System.out.println(suggestion.toString());
+		
 		assertTrue(suggestion.size() == 3);
 		assertTrue(suggestion.contains(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial())));
 	}
@@ -147,6 +138,14 @@ public class GameActionsTests {
 	//Makes sure that the computer is choosing good places to move to on their turn. 
 	@Test
 	public void testTargetting() {
-		//TODO write test.
+		board.calcTargets(7, 0, 6);
+		Set<BoardCell> targets= board.getTargets();
+		assertEquals(6, targets.size());
+		assertTrue(targets.contains(board.getCellAt(6, 1)));
+		assertTrue(targets.contains(board.getCellAt(6, 3)));	
+		assertTrue(targets.contains(board.getCellAt(6, 5)));	
+		assertTrue(targets.contains(board.getCellAt(7, 2)));	
+		assertTrue(targets.contains(board.getCellAt(7, 4)));	
+		assertTrue(targets.contains(board.getCellAt(7, 6)));
 	}
 }

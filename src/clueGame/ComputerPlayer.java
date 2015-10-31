@@ -3,14 +3,17 @@ package clueGame;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class ComputerPlayer extends Player {
 
 	Random rand;
+	char lastRoom;
 	
 	public ComputerPlayer(String nam, Color col, int x, int y) {
 		super(nam, col, x, y);
 		rand = new Random();
+		lastRoom = '?';
 	}
 	
 	@Override
@@ -63,8 +66,8 @@ public class ComputerPlayer extends Player {
 	}
 
 	@Override
-	public void makeMove() {
-		// TODO Auto-generated method stub
+	public void makeMove(Set<BoardCell> targets) {
+		
 		if(unknownCards.size() == 3){
 			makeAccusation();
 		}
