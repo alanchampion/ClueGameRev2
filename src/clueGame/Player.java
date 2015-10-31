@@ -14,7 +14,7 @@ public abstract class Player {
 	
 	public abstract Card disproveSuggestion(ArrayList<Card> suggestion);
 	public abstract ArrayList<Card> makeAccusation();
-	public abstract void makeSuggestion();
+	public abstract ArrayList<Card> makeSuggestion(Card currentRoom);
 	public abstract void makeMove();
 	
 	public Player(String nam, Color col, int x, int y) {
@@ -62,5 +62,11 @@ public abstract class Player {
 	// Adds the full deck of cards to the list of unknown cards
 	public void addUnknownCards(ArrayList<Card> deck) {
 		unknownCards.addAll(deck);
+	}
+	
+	//Moves the location of the character
+	public void moveLocation(int x, int y) {
+		row = x;
+		column = y;
 	}
 }

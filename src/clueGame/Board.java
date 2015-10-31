@@ -215,7 +215,7 @@ public class Board {
 			rooms.put(key, roomName);
 			
 			if (entries[2].trim().equals("Card")) {
-				deck.add(new Card(entries[1].trim(), CardType.ROOM));
+				deck.add(new Card(entries[1].trim(), CardType.ROOM, key));
 			}
 		}
 		readKey.close();
@@ -468,5 +468,16 @@ public class Board {
 		for (Card card: deck) {
 			System.out.println(card);
 		}
+	}
+	
+	public Card getRoomFromInitial(char initial) {
+		for(Card card : fullDeck)
+		{
+			if(card.getRoomInitial() == initial)
+			{
+				return card;
+			}
+		}
+		return null;
 	}
 }

@@ -22,9 +22,9 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public void makeSuggestion() {
+	public ArrayList<Card> makeSuggestion(Card currentRoom) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override

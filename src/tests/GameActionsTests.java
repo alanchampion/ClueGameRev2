@@ -97,7 +97,7 @@ public class GameActionsTests {
 	//Checks to see that the disproving of a suggestion works well
 	@Test
 	public void testDisprovingSuggestion() {
-		ArrayList<Card> solutionCards = new ArrayList<Card>(board.getSolution());
+		//ArrayList<Card> solutionCards = new ArrayList<Card>(board.getSolution());
 		ArrayList<Card> wrongCards = new ArrayList<Card>();
 		Card tempCard;
 		
@@ -135,12 +135,18 @@ public class GameActionsTests {
 	//Checks that making a suggestion works as expected
 	@Test
 	public void testSuggestion() {
-		
+		//TODO write test.
+		ArrayList<Card> suggestion;
+		com1.moveLocation(10,3);
+		suggestion = com1.makeSuggestion(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial()));
+		System.out.println(suggestion.toString());
+		assertTrue(suggestion.size() == 3);
+		assertTrue(suggestion.contains(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial())));
 	}
 	
 	//Makes sure that the computer is choosing good places to move to on their turn. 
 	@Test
 	public void testTargetting() {
-		
+		//TODO write test.
 	}
 }

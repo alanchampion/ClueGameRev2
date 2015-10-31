@@ -38,8 +38,28 @@ public class ComputerPlayer extends Player {
 	}
 
 	@Override
-	public void makeSuggestion() {
+	public ArrayList<Card> makeSuggestion(Card currentRoom) {
+		//TODO finish this method.
+		ArrayList<Card> suggestion = new ArrayList<Card>();
+		Card tempCard;
+		boolean hasPerson = false, hasWeapon = false;
+		suggestion.add(currentRoom);
+		while(suggestion.size() != 3)
+		{
+			tempCard = unknownCards.get(rand.nextInt(unknownCards.size()));
+			if(!hasPerson && tempCard.getType() == CardType.PERSON)
+			{
+				suggestion.add(tempCard);
+				hasPerson = true;
+			}
+			if(!hasWeapon && tempCard.getType() == CardType.WEAPON)
+			{
+				suggestion.add(tempCard);
+				hasWeapon = true;
+			}
+		}
 		
+		return suggestion;
 	}
 
 	@Override
@@ -49,5 +69,4 @@ public class ComputerPlayer extends Player {
 			makeAccusation();
 		}
 	}
-
 }
