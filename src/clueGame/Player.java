@@ -16,7 +16,7 @@ public abstract class Player {
 	public abstract Card disproveSuggestion(ArrayList<Card> suggestion);
 	public abstract ArrayList<Card> makeAccusation();
 	public abstract ArrayList<Card> makeSuggestion(Card currentRoom);
-	public abstract void makeMove(Set<BoardCell> targets);
+	public abstract BoardCell makeMove(Set<BoardCell> targets);
 	
 	public Player(String nam, Color col, int x, int y) {
 		unknownCards = new ArrayList<Card>();
@@ -69,5 +69,9 @@ public abstract class Player {
 	public void moveLocation(int x, int y) {
 		row = x;
 		column = y;
+	}
+	
+	public BoardCell getCell(char key, String name) {
+		return new BoardCell(row, column, name, key);
 	}
 }

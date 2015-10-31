@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
+import java.util.HashSet;
 
 public class ComputerPlayer extends Player {
 
@@ -66,10 +67,30 @@ public class ComputerPlayer extends Player {
 	}
 
 	@Override
-	public void makeMove(Set<BoardCell> targets) {
+	public BoardCell makeMove(Set<BoardCell> targets) {
+		boolean hasTarget = false;
+		BoardCell newLoc = null;
 		
-		if(unknownCards.size() == 3){
-			makeAccusation();
+		while(!hasTarget) {
+			int value = new Random().nextInt(targets.size()); // In real life, the Random object should be rather more shared than this
+			int i = 0;
+			for(BoardCell targ: targets)
+			{
+			    if (i == value)
+			    	if(targ.getInitial() != lastRoom) {
+			    		newLoc = targ;
+			    		hasTarget = true;
+			    		break;
+			    	}
+			    i = i + 1;
+			}
 		}
+		if(newLoc.getInitial() != 'W')
+			lastRoom = newLoc.getInitial();
+		
+		row = newLoc.getRow();
+		column = newLoc.getColumn();
+		
+		return newLoc;
 	}
 }

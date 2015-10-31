@@ -129,7 +129,7 @@ public class GameActionsTests {
 		ArrayList<Card> suggestion;
 		com1.moveLocation(10,3);
 		suggestion = com1.makeSuggestion(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial()));
-		System.out.println(suggestion.toString());
+		//System.out.println(suggestion.toString());
 		
 		assertTrue(suggestion.size() == 3);
 		assertTrue(suggestion.contains(board.getRoomFromInitial(board.getCellAt(10, 3).getInitial())));
@@ -140,12 +140,31 @@ public class GameActionsTests {
 	public void testTargetting() {
 		board.calcTargets(7, 0, 6);
 		Set<BoardCell> targets= board.getTargets();
+		com1.moveLocation(7, 0);
+		com1.makeMove(targets);
 		assertEquals(6, targets.size());
-		assertTrue(targets.contains(board.getCellAt(6, 1)));
+		/*assertTrue(targets.contains(board.getCellAt(6, 1)));
 		assertTrue(targets.contains(board.getCellAt(6, 3)));	
 		assertTrue(targets.contains(board.getCellAt(6, 5)));	
 		assertTrue(targets.contains(board.getCellAt(7, 2)));	
 		assertTrue(targets.contains(board.getCellAt(7, 4)));	
-		assertTrue(targets.contains(board.getCellAt(7, 6)));
+		assertTrue(targets.contains(board.getCellAt(7, 6)));*/
+		//System.out.println(com1.getRow() + ", " + com1.getColumn());
+		int row = com1.getRow();
+		int col = com1.getColumn();
+		char charName = board.getCellAt(com1.getRow(), com1.getColumn()).getInitial();
+		String name = board.getRooms().get(charName);
+		BoardCell currentLoc = new BoardCell(row, col, name, charName);
+		boolean passed = false;
+		System.out.println(row + ", " + col + ", " + charName + ", " + name);
+		for(BoardCell cell: targets) {
+			if(cell.getRow() == currentLoc.getRow() && cell.getColumn() == currentLoc.getColumn()) {
+				if(cell.getInitial() == currentLoc.getInitial()){
+					passed = true;
+					break;
+				}
+			}
+		}
+		assertTrue(passed);
 	}
 }
