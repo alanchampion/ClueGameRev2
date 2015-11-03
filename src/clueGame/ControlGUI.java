@@ -18,27 +18,35 @@ public class ControlGUI extends JFrame {
 		setSize(800, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2, 3));
-		add(panel, BorderLayout.SOUTH);
+		Cards cards = new Cards();
+		add(cards, BorderLayout.EAST);
+		
+		// Create elements of Control Panel
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new GridLayout(2, 3));
+		add(controlPanel, BorderLayout.SOUTH);
 		
 		Header header = new Header();
-		panel.add(header);
+		controlPanel.add(header);
 		nextPlayerButton nextPlayer = new nextPlayerButton();
-		panel.add(nextPlayer);
+		controlPanel.add(nextPlayer);
 		makeAccusationButton makeAccusation = new makeAccusationButton();
-		panel.add(makeAccusation);
+		controlPanel.add(makeAccusation);
 		Die die = new Die();
-		panel.add(die);
+		controlPanel.add(die);
 		Guess guess = new Guess();
-		panel.add(guess);
+		controlPanel.add(guess);
 		Result result = new Result();
-		panel.add(result);
+		controlPanel.add(result);
+		
+		
 	}
-
-	public static void main(String[] args) {
-		ControlGUI gui = new ControlGUI();
-		gui.setVisible(true);
+	
+	public class ControlPanel extends JPanel {
+		
+		public ControlPanel() {
+			
+		}
 	}
 	
 	public class Header extends JPanel {
@@ -143,5 +151,26 @@ public class ControlGUI extends JFrame {
 			// Prevent the textfield from being user editable
 			result.setEditable(false);
 		}
+	}
+	
+	public class Cards extends JPanel {
+		
+		public Cards() {
+			setLayout(new GridLayout(3, 1));
+			setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
+			
+			JTextField card1 = new JTextField("---Card 1---");
+			JTextField card2 = new JTextField("---Card 2---");
+			JTextField card3 = new JTextField("---Card 3---");
+			
+			add(card1);
+			add(card2);
+			add(card3);
+		}
+	}
+
+	public static void main(String[] args) {
+		ControlGUI gui = new ControlGUI();
+		gui.setVisible(true);
 	}
 }
