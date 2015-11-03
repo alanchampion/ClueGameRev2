@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
-import java.util.HashSet;
 
 public class ComputerPlayer extends Player {
 
@@ -43,7 +42,6 @@ public class ComputerPlayer extends Player {
 
 	@Override
 	public ArrayList<Card> makeSuggestion(Card currentRoom) {
-		//TODO finish this method.
 		ArrayList<Card> suggestion = new ArrayList<Card>();
 		Card tempCard;
 		boolean hasPerson = false, hasWeapon = false;

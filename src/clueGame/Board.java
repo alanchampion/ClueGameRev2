@@ -3,11 +3,11 @@ package clueGame;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -21,14 +21,14 @@ public class Board {
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private LinkedList<BoardCell> adjCell;
-	private LinkedList<BoardCell> tempAdjCell;
-	private BoardCell temp;
+	//private LinkedList<BoardCell> tempAdjCell;
+	//private BoardCell temp;
 	private ArrayList<Card> deck;
 	private ArrayList<Card> fullDeck;
 	private ArrayList<String> name;
 	public Player[] players;
 	private Solution solution;
-	private int[][] startCoords;
+	//private int[][] startCoords;
 
 	private int numRows;
 	private int numCols;
@@ -52,12 +52,12 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		adjCell = new LinkedList<BoardCell>();
-		tempAdjCell = new LinkedList<BoardCell>();
+		//tempAdjCell = new LinkedList<BoardCell>();
 		deck = new ArrayList<Card>();
 		name = new ArrayList<String>();
 		fullDeck = new ArrayList<Card>(3);
 		players = new Player[6];
-		startCoords = new int[6][6];
+		//startCoords = new int[6][6];
 		
 		initialize();
 	}
@@ -78,6 +78,8 @@ public class Board {
 		} catch (BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 		} catch (FileNotFoundException e){
+			System.out.println(e.getMessage());
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 		
@@ -153,7 +155,7 @@ public class Board {
 		players[5].addUnknownCards(deck);
 	}
 
-	private void loadCards() throws BadConfigFormatException, FileNotFoundException {
+	private void loadCards() throws BadConfigFormatException, IOException {
 		String tempName;
 		
 		FileReader frPlayers = new FileReader(playersFile);
@@ -172,8 +174,11 @@ public class Board {
 		
 		// Check that 6 characters were loaded
 		if (counter != 6) {
+			frWeapons.close();
+			sc.close();
 			throw new BadConfigFormatException();
 		}
+		sc.close();
 		
 		// Get weapon cards from file
 		counter = 0;
@@ -185,6 +190,7 @@ public class Board {
 		
 		// Check that 6 weapons were loaded
 		if (counter != 6) {
+			sc.close();
 			throw new BadConfigFormatException();
 		}
 			
@@ -193,6 +199,8 @@ public class Board {
 		
 		// Shuffle the deck
 		Collections.shuffle(deck);
+		
+		sc.close();
 	}
 	
 	//Adds the rooms to the deck as well. 
@@ -208,6 +216,7 @@ public class Board {
 			line = readKey.nextLine();
 			entries = line.split(",");
 			if (entries.length != 3) {
+				readKey.close();
 				throw new BadConfigFormatException();
 			}
 			Character key = new Character(entries[0].charAt(0));
@@ -248,10 +257,12 @@ public class Board {
 			//loop through each row to get individual cells
 			tempColumnEntries = tempRows.get(i).split(",");
 			if (tempColumnEntries.length != numCols){
+				readLayout.close();
 				throw new BadConfigFormatException();
 			}
 			for( int j = 0; j < numCols; j++){
 				if (! rooms.containsKey(tempColumnEntries[j].charAt(0))){
+					readLayout.close();
 					throw new BadConfigFormatException();
 				}
 				//loop through each row to set each cell
