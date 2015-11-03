@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Set;
 
 public abstract class Player {
 	protected String name;
@@ -14,8 +15,8 @@ public abstract class Player {
 	
 	public abstract Card disproveSuggestion(ArrayList<Card> suggestion);
 	public abstract ArrayList<Card> makeAccusation();
-	public abstract void makeSuggestion();
-	public abstract void makeMove();
+	public abstract ArrayList<Card> makeSuggestion(Card currentRoom);
+	public abstract BoardCell makeMove(Set<BoardCell> targets);
 	
 	public Player(String nam, Color col, int x, int y) {
 		unknownCards = new ArrayList<Card>();
@@ -62,5 +63,15 @@ public abstract class Player {
 	// Adds the full deck of cards to the list of unknown cards
 	public void addUnknownCards(ArrayList<Card> deck) {
 		unknownCards.addAll(deck);
+	}
+	
+	//Moves the location of the character
+	public void moveLocation(int x, int y) {
+		row = x;
+		column = y;
+	}
+	
+	public BoardCell getCell(char key, String name) {
+		return new BoardCell(row, column, name, key);
 	}
 }

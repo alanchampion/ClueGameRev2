@@ -215,9 +215,10 @@ public class Board {
 			rooms.put(key, roomName);
 			
 			if (entries[2].trim().equals("Card")) {
-				deck.add(new Card(entries[1].trim(), CardType.ROOM));
+				deck.add(new Card(entries[1].trim(), CardType.ROOM, key));
 			}
 		}
+		
 		readKey.close();
 	}
 
@@ -367,6 +368,23 @@ public class Board {
 		return solution.testAccusation(accusation.get(0), accusation.get(1), accusation.get(2));
 	}
 	
+	//Checks the suggestion. Returns false if no disprove is found. Otherwise returns true. 
+	public Card checkSuggestion(Player myTurn, ArrayList<Card>  cards) {
+		Card tempCard = null;
+		
+		for(Player player : players)
+		{
+			if(!player.equals(myTurn))
+			{
+				//System.out.println("Not my turn");
+				tempCard = player.disproveSuggestion(cards);
+			}
+			if(tempCard != null)
+				return tempCard;
+		}
+		return tempCard;
+	}
+	
 	//Returns a copy of the solution cards as an Array list. 
 	//Usefully for testing. 
 	public ArrayList<Card> getSolution() {
@@ -451,5 +469,16 @@ public class Board {
 		for (Card card: deck) {
 			System.out.println(card);
 		}
+	}
+	
+	public Card getRoomFromInitial(char initial) {
+		for(Card card : fullDeck)
+		{
+			if(card.getRoomInitial() == initial)
+			{
+				return card;
+			}
+		}
+		return null;
 	}
 }

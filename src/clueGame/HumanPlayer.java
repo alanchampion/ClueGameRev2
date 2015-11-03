@@ -2,6 +2,8 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HumanPlayer extends Player {
 
@@ -22,15 +24,15 @@ public class HumanPlayer extends Player {
 	}
 
 	@Override
-	public void makeSuggestion() {
+	public ArrayList<Card> makeSuggestion(Card currentRoom) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public void makeMove() {
+	public BoardCell makeMove(Set<BoardCell> targets) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 

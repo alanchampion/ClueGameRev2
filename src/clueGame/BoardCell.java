@@ -56,9 +56,8 @@ public class BoardCell {
 	public boolean isDoorway(){
 		if (direction.equals(DoorDirection.NONE))
 			return false;
-		else{
+		else
 			return true;
-		}
 	}
 	
 	public char getInitial(){
