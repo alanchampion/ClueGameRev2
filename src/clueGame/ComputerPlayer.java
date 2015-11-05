@@ -10,12 +10,25 @@ public class ComputerPlayer extends Player {
 	Random rand;
 	char lastRoom;
 	
+	/**
+	 * Initializer for the computer player
+	 * 
+	 * @param nam The name of the computer player
+	 * @param col The Color of the computer player
+	 * @param x Location variable
+	 * @param y Location variable
+	 */
 	public ComputerPlayer(String nam, Color col, int x, int y) {
 		super(nam, col, x, y);
 		rand = new Random();
 		lastRoom = '?';
 	}
 	
+	/**
+	 * Disprove the suggestion of another player
+	 * 
+	 * @param suggestion The three card suggestion of the player making the suggestion.
+	 */
 	@Override
 	public Card disproveSuggestion(ArrayList<Card> suggestion) {
 		ArrayList<Card> tempCards = new ArrayList<Card>();
@@ -32,14 +45,22 @@ public class ComputerPlayer extends Player {
 		}
 	}
 	
-	//This method will work because the computer players should only ever make an accusation
-	//if there are three cards in unknownCards.
-	//The Board will handle the checking of the accusation. 
+	/**
+	 * Make an accusation. This will only happen if a computer player has three cards that will guarantee a correct answer.
+	 * The board handles the checking of accusations.  
+	 */
 	@Override
 	public ArrayList<Card> makeAccusation() {
 		return unknownCards;
 	}
-
+	
+	/**
+	 * Makes a suggestion. 
+	 * This will happen when the computer player enters a room.
+	 * 
+	 *  @param currentRoom The card of the current room the player is in.
+	 *  	This is needed because the rules require a suggestion be from the room they are in. 
+	 */
 	@Override
 	public ArrayList<Card> makeSuggestion(Card currentRoom) {
 		ArrayList<Card> suggestion = new ArrayList<Card>();
@@ -63,14 +84,18 @@ public class ComputerPlayer extends Player {
 		
 		return suggestion;
 	}
-
+	/**
+	 * Makes the move for the computer players. 
+	 * 
+	 * @param targets The possible targets for the computer player. 
+	 */
 	@Override
 	public BoardCell makeMove(Set<BoardCell> targets) {
 		boolean hasTarget = false;
 		BoardCell newLoc = null;
 		
 		while(!hasTarget) {
-			int value = new Random().nextInt(targets.size()); // In real life, the Random object should be rather more shared than this
+			int value = rand.nextInt(targets.size()); 
 			int i = 0;
 			for(BoardCell targ: targets)
 			{
