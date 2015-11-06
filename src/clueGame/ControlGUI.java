@@ -16,6 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+// Prevents warnings regarding serial version numbers for all objects
+@SuppressWarnings("serial")
+
 public class ControlGUI extends JFrame {
 	
 	DetectiveGUI detectiveGUI = null;

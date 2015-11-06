@@ -5,12 +5,15 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
+// Prevents warnings regarding serial version numbers for all objects
+@SuppressWarnings("serial")
+
+// Detective Notes for player to help them keep track of information
 public class DetectiveGUI extends JDialog {
 	public DetectiveGUI() {
 		setTitle("Detective Notes");
@@ -36,6 +39,7 @@ public class DetectiveGUI extends JDialog {
 		detectivePanel.add(weaponGuess);
 	}
 
+	// Notes of rooms for checking off disproved room
 	public class PeopleNotes extends JPanel {
 		public PeopleNotes() {
 			setLayout(new GridLayout(3, 2));
@@ -57,6 +61,7 @@ public class DetectiveGUI extends JDialog {
 		}
 	}
 	
+	// Notes for keeping track of best person guess
 	public class PersonGuess extends JPanel {
 		public PersonGuess() {
 			setLayout(new GridLayout(1, 1));
@@ -75,6 +80,7 @@ public class DetectiveGUI extends JDialog {
 		}
 	}
 	
+	// Notes of rooms for checking off disproved room
 	public class RoomNotes extends JPanel {
 		public RoomNotes() {
 			setLayout(new GridLayout(5, 2));
@@ -102,6 +108,7 @@ public class DetectiveGUI extends JDialog {
 		}
 	}
 	
+	// Notes for keeping track of best room guess
 	public class RoomGuess extends JPanel {
 		public RoomGuess() {
 			setLayout(new GridLayout(1, 1));
@@ -123,6 +130,7 @@ public class DetectiveGUI extends JDialog {
 		}
 	}
 	
+	// Notes of weapons for checking off disproved weapons
 	public class WeaponNotes extends JPanel {
 		public WeaponNotes() {
 			setLayout(new GridLayout(3, 2));
@@ -144,6 +152,7 @@ public class DetectiveGUI extends JDialog {
 		}
 	}
 	
+	// Notes for keeping track of best weapon guess
 	public class WeaponGuess extends JPanel {
 		public WeaponGuess() {
 			setLayout(new GridLayout(1, 1));
