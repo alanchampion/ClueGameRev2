@@ -7,10 +7,17 @@ import java.util.Set;
 
 public class HumanPlayer extends Player {
 
+	/**
+	 * Initializer for the human player
+	 * 
+	 * @param nam The name of the human player
+	 * @param col The Color of the human player
+	 * @param x Location variable
+	 * @param y Location variable
+	 */
 	public HumanPlayer(String nam, Color col, int x, int y) {
 		super(nam, col, x, y);
 	}
-	
 	
 	public Card disproveSuggestion(Card suggestion) {
 		// TODO Auto-generated method stub

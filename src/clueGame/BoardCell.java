@@ -6,8 +6,15 @@ public class BoardCell {
 	char initial;
 	
 	private DoorDirection direction;
-
 	
+	/**
+	 * Initializer for board cell
+	 * 
+	 * @param row Location variable
+	 * @param column Location variable
+	 * @param r Name of the board cell with the first letter being the initial.
+	 * @param d If it is a door, sets a direction. Otherwise defaults to NONE. 
+	 */
 	public BoardCell(int row, int column, String r, char d) {
 		this.row = row;
 		this.column = column;
@@ -37,6 +44,11 @@ public class BoardCell {
 		return direction;
 	}
 	
+	/**
+	 * Checks if the board cell is a walkway or not
+	 * 
+	 * @return true if it is a walkway. False otherwise.
+	 */
 	public boolean isWalkway(){
 		if (initial=='W')
 			return true;
@@ -45,6 +57,11 @@ public class BoardCell {
 		}
 	}
 	
+	/**
+	 * Checks if the board cell is a room or not
+	 * 
+	 * @return true if it is a room. False otherwise. 
+	 */
 	public boolean isRoom(){
 		if (initial != 'W') // ????? && initial != 'X')
 			return true;
@@ -53,6 +70,11 @@ public class BoardCell {
 		}
 	}
 	
+	/**
+	 * Checks if the board cell is a doorway or not. 
+	 * 
+	 * @return true if it is a doorway. False otherwise. 
+	 */
 	public boolean isDoorway(){
 		if (direction.equals(DoorDirection.NONE))
 			return false;

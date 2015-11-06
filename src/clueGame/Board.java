@@ -3,11 +3,11 @@ package clueGame;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
@@ -21,14 +21,11 @@ public class Board {
 	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	private LinkedList<BoardCell> adjCell;
-	private LinkedList<BoardCell> tempAdjCell;
-	private BoardCell temp;
 	private ArrayList<Card> deck;
 	private ArrayList<Card> fullDeck;
 	private ArrayList<String> name;
 	public Player[] players;
 	private Solution solution;
-	private int[][] startCoords;
 
 	private int numRows;
 	private int numCols;
@@ -40,7 +37,14 @@ public class Board {
 
 	BoardCell [][] board;
 	
-	//Constructor requires the name of the layout file, name of the key file, name of characters file, and name of weapons file. 
+	/**
+	 * Constructor requires the name of the key file, name of characters file, and name of weapons file. 
+	 * 
+	 * @param layoutName The name of the board layout file. 
+	 * @param key The name of the legend file (e.g. B, Ballroom, Card).
+	 * @param playersList The name of the characters file (e.g. Miss Scarlet).
+	 * @param weaponsList The name of the weapons file (e.g. Lead Pipe).
+	 */
 	public Board(String layoutName, String key, String playersList, String weaponsList){
 		
 		this.layoutName = layoutName;
@@ -52,16 +56,33 @@ public class Board {
 		targets = new HashSet<BoardCell>();
 		visited = new HashSet<BoardCell>();
 		adjCell = new LinkedList<BoardCell>();
-		tempAdjCell = new LinkedList<BoardCell>();
+		//tempAdjCell = new LinkedList<BoardCell>();
 		deck = new ArrayList<Card>();
 		name = new ArrayList<String>();
 		fullDeck = new ArrayList<Card>(3);
 		players = new Player[6];
-		startCoords = new int[6][6];
+		//startCoords = new int[6][6];
 		
 		initialize();
 	}
-
+	
+	/**
+	 * Sets up the game. 
+	 * This is called just from initializing the board. It is public for testing purposes. 
+	 * 
+	 * Order of actions: 
+	 * loads the rooms from file. Adds them to map rooms AND to the deck as cards. 
+	 * loads the board map from file and sets up the BoardCell[][] board. 
+	 * calculates the adjacencies for all board cells. Adds them to adjMtx. 
+	 * loads the cards. Loads the character and weapon cards into deck then shuffles it. 
+	 * 		Also sets up FullDeck which should never change even after dealing. 
+	 * 		And finally, sets up the array list of all character names.  
+	 * loads the players. Loads up the players and adds the deck to their unknown cards. 
+	 * deals the cards to players. This deals all the cards to the players and solution.
+	 * 		This updates their hand, known cards, and unknown cards. This should leave deck empty. 
+	 * 		FullDeck should be used if access to the deck is needed again.
+	 * 
+	 */
 	public void initialize() {
 		
 		try {
@@ -79,13 +100,18 @@ public class Board {
 			System.out.println(e.getMessage());
 		} catch (FileNotFoundException e){
 			System.out.println(e.getMessage());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
 		
 		// Deal the deck to players
 		deal();
 	}
 	
-	//Creates the solution and distributes cards. 
+	/**
+	 * Creates the solution and distributes cards to players.
+	 * Called in initialize.
+	 */
 	private void deal() {
 		
 		boolean isWeapon = false;
@@ -134,7 +160,13 @@ public class Board {
 			}
 		}
 	}
-
+	
+	/**
+	 * Loads the players. Loads up the players and adds the deck to their unknown cards.
+	 * 
+	 * @throws BadConfigFormatException Means there was a bad configuration for the file given. 
+	 * @throws FileNotFoundException Means the file given does not exist. 
+	 */
 	private void loadPlayers() throws BadConfigFormatException, FileNotFoundException {
 		// Create list of players with name, color, and starting locations
 		players[0] = new HumanPlayer("Human", Color.RED, 0, 3);
@@ -152,8 +184,16 @@ public class Board {
 		players[4].addUnknownCards(deck);
 		players[5].addUnknownCards(deck);
 	}
-
-	private void loadCards() throws BadConfigFormatException, FileNotFoundException {
+	
+	/**
+	 * Loads the cards. Loads the character and weapon cards into deck then shuffles it. 
+	 * 		Also sets up FullDeck which should never change even after dealing. 
+	 * 		And finally, sets up the array list of all character names.
+	 * 
+	 * @throws BadConfigFormatException Means there was a bad configuration for the file given. 
+	 * @throws FileNotFoundException Means the file given does not exist. 
+	 */
+	private void loadCards() throws BadConfigFormatException, IOException {
 		String tempName;
 		
 		FileReader frPlayers = new FileReader(playersFile);
@@ -172,8 +212,11 @@ public class Board {
 		
 		// Check that 6 characters were loaded
 		if (counter != 6) {
+			frWeapons.close();
+			sc.close();
 			throw new BadConfigFormatException();
 		}
+		sc.close();
 		
 		// Get weapon cards from file
 		counter = 0;
@@ -185,6 +228,7 @@ public class Board {
 		
 		// Check that 6 weapons were loaded
 		if (counter != 6) {
+			sc.close();
 			throw new BadConfigFormatException();
 		}
 			
@@ -193,9 +237,16 @@ public class Board {
 		
 		// Shuffle the deck
 		Collections.shuffle(deck);
+		
+		sc.close();
 	}
 	
-	//Adds the rooms to the deck as well. 
+	/**
+	 * Loads the rooms from file. Adds them to map rooms AND to the deck as cards. 
+	 * 
+	 * @throws BadConfigFormatException Means there was a bad configuration for the file given. 
+	 * @throws FileNotFoundException Means the file given does not exist. 
+	 */
 	public void loadRoomConfig() throws BadConfigFormatException, FileNotFoundException {
 		
 		String[] entries;
@@ -208,6 +259,7 @@ public class Board {
 			line = readKey.nextLine();
 			entries = line.split(",");
 			if (entries.length != 3) {
+				readKey.close();
 				throw new BadConfigFormatException();
 			}
 			Character key = new Character(entries[0].charAt(0));
@@ -221,7 +273,13 @@ public class Board {
 		
 		readKey.close();
 	}
-
+	
+	/**
+	 * Loads the board map from file and sets up the BoardCell[][] board. 
+	 * 
+	 * @throws BadConfigFormatException Means there was a bad configuration for the file given. 
+	 * @throws FileNotFoundException Means the file given does not exist. 
+	 */
 	public void loadBoardConfig() throws FileNotFoundException, BadConfigFormatException {
 		
 		board = new BoardCell[BOARD_SIZE][BOARD_SIZE];
@@ -248,10 +306,12 @@ public class Board {
 			//loop through each row to get individual cells
 			tempColumnEntries = tempRows.get(i).split(",");
 			if (tempColumnEntries.length != numCols){
+				readLayout.close();
 				throw new BadConfigFormatException();
 			}
 			for( int j = 0; j < numCols; j++){
 				if (! rooms.containsKey(tempColumnEntries[j].charAt(0))){
+					readLayout.close();
 					throw new BadConfigFormatException();
 				}
 				//loop through each row to set each cell
@@ -265,11 +325,22 @@ public class Board {
 		}
 		readLayout.close();
 	}
-
+	
+	/**
+	 * Get the board cell from  a certain coordinate. 
+	 * 
+	 * @param x Location coordinate
+	 * @param y Location coordinate
+	 * @return BoardCell at given coordinate
+	 */
 	public BoardCell getCellAt(int x, int y){
 		return board[x][y];
 	}
-
+	/**
+	 * Calculates the adjacencies for all board cells. Adds them to adjMtx.
+	 * 
+	 * @return gives the adjMtx for testing purposes. 
+	 */
 	public Map<BoardCell, LinkedList<BoardCell>> calcAdjacencies(){
 		
 		for (int i = 0; i < numRows; i++){
@@ -345,6 +416,13 @@ public class Board {
 		return adjMtx;
 	}
 	
+	/**
+	 * Checks if the passed coordinate is a valid location
+	 * 
+	 * @param x Location coordinate
+	 * @param y Location coordinate
+	 * @return true if it is valid. False otherwise. 
+	 */
 	public boolean isValid(int x, int y){
 		
 		if(x < 0 || x > numRows - 1 || y < 0 || y > numCols - 1) {
@@ -357,18 +435,36 @@ public class Board {
 			return true;
 		}
 	}
-
+	
+	/**
+	 * Returns the adjacent list for the given coordinate. 
+	 * 
+	 * @param x Location coordinate
+	 * @param y Location coordinate
+	 * @return the Linked list of adjacent cells. 
+	 */
 	public LinkedList<BoardCell> getAdjList(int x, int y){
 		BoardCell cell = getCellAt(x,y);
 		return adjMtx.get(cell);
 	}
 	
-	//Checks an accusation. Returns true if accusation is correct. False otherwise. 
+	/**
+	 * Checks an accusation.  
+	 * 
+	 * @param accusation The list of the accusing cards. 
+	 * @return true if accusation is correct. False otherwise.
+	 */
 	public boolean checkAccusation(ArrayList<Card> accusation){
 		return solution.testAccusation(accusation.get(0), accusation.get(1), accusation.get(2));
 	}
 	
-	//Checks the suggestion. Returns false if no disprove is found. Otherwise returns true. 
+	/**
+	 * Checks the suggestion. 
+	 * 
+	 * @param myTurn The player whose turn it is. 
+	 * @param cards The suggested cards.
+	 * @return the card that disproves the suggestion. Otherwise return null. 
+	 */
 	public Card checkSuggestion(Player myTurn, ArrayList<Card>  cards) {
 		Card tempCard = null;
 		
@@ -385,8 +481,12 @@ public class Board {
 		return tempCard;
 	}
 	
-	//Returns a copy of the solution cards as an Array list. 
-	//Usefully for testing. 
+	/**
+	 * Returns a copy of the solution cards as an Array list. 
+	 * Usefully for testing. 
+	 * 
+	 * @return the solution cards. 
+	 */
 	public ArrayList<Card> getSolution() {
 		return new ArrayList<Card>(solution.solutionCards);
 	}
@@ -402,7 +502,15 @@ public class Board {
 	public int getY(BoardCell c){
 		return c.column;
 	}
-
+	
+	/**
+	 * Calculates the targets given a coordinate and the size of the dice roll. 
+	 * 
+	 * @param x Location coordinate
+	 * @param y Location coordinate
+	 * @param pathLength The dice roll
+	 * @return the set of the possible movement places. 
+	 */
 	public Set<BoardCell> calcTargets(int x, int y, int pathLength){
 		
 		visited.clear();
@@ -418,7 +526,13 @@ public class Board {
 		}
 		return targets;
 	}
-
+	
+	/**
+	 * Finds all the possible targets from a cell and a dice roll. 
+	 * 
+	 * @param cell The starting cell. 
+	 * @param pathLength The dice roll. 
+	 */
 	public void findAllTargets(BoardCell cell, int pathLength){
 		
 		LinkedList<BoardCell> tempAdjCell = new LinkedList<BoardCell>(getAdjList(cell.getRow(), cell.getColumn()));
@@ -459,18 +573,32 @@ public class Board {
 		return fullDeck;
 	}
 	
+	/**
+	 * Prints a board cell information. 
+	 * 
+	 * @param c Board cell to print. 
+	 */
 	public void printCell(BoardCell c){
 		int x = getX(c);
 		int y = getY(c);
 		System.out.println("(" + x + " " + y + ")");
 	}
 	
+	/**
+	 * Prints the deck. Not the FullDeck!
+	 */
 	public void printDeck() {
 		for (Card card: deck) {
 			System.out.println(card);
 		}
 	}
 	
+	/**
+	 * Given an initial, it returns the Card of the room that initial represents. 
+	 * 
+	 * @param initial The initial to get the room from. 
+	 * @return the card that is represented by the given initial. 
+	 */
 	public Card getRoomFromInitial(char initial) {
 		for(Card card : fullDeck)
 		{
