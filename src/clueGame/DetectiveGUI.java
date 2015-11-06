@@ -4,14 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-public class DetectiveGUI extends JFrame {
-
+public class DetectiveGUI extends JDialog {
 	public DetectiveGUI() {
 		setTitle("Detective Notes");
 		setSize(500, 500);
@@ -35,9 +35,8 @@ public class DetectiveGUI extends JFrame {
 		detectivePanel.add(weaponNotes);
 		detectivePanel.add(weaponGuess);
 	}
-	
+
 	public class PeopleNotes extends JPanel {
-		
 		public PeopleNotes() {
 			setLayout(new GridLayout(3, 2));
 			setBorder(new TitledBorder (new EtchedBorder(), "Persons"));
@@ -58,8 +57,25 @@ public class DetectiveGUI extends JFrame {
 		}
 	}
 	
+	public class PersonGuess extends JPanel {
+		public PersonGuess() {
+			setLayout(new GridLayout(1, 1));
+			setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+			
+			JComboBox<String> personGuessComboBox = new JComboBox<String>();
+			
+			add(personGuessComboBox);
+	
+			personGuessComboBox.addItem("Miss Scarlet");
+			personGuessComboBox.addItem("Mr. Green");
+			personGuessComboBox.addItem("Mrs. Peacock");
+			personGuessComboBox.addItem("Colonel Mustard");
+			personGuessComboBox.addItem("Mrs. White");
+			personGuessComboBox.addItem("Professor Plum");
+		}
+	}
+	
 	public class RoomNotes extends JPanel {
-		
 		public RoomNotes() {
 			setLayout(new GridLayout(5, 2));
 			setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
@@ -86,8 +102,28 @@ public class DetectiveGUI extends JFrame {
 		}
 	}
 	
+	public class RoomGuess extends JPanel {
+		public RoomGuess() {
+			setLayout(new GridLayout(1, 1));
+			setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+			
+			JComboBox<String> roomGuessComboBox = new JComboBox<String>();
+			
+			add(roomGuessComboBox);
+			
+			roomGuessComboBox.addItem("Conservatory");
+			roomGuessComboBox.addItem("Kitchen");
+			roomGuessComboBox.addItem("Ballroom");
+			roomGuessComboBox.addItem("Billiard Room");
+			roomGuessComboBox.addItem("Library");
+			roomGuessComboBox.addItem("Study");
+			roomGuessComboBox.addItem("Dining Room");
+			roomGuessComboBox.addItem("Lounge");
+			roomGuessComboBox.addItem("Hall");
+		}
+	}
+	
 	public class WeaponNotes extends JPanel {
-		
 		public WeaponNotes() {
 			setLayout(new GridLayout(3, 2));
 			setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
@@ -108,56 +144,12 @@ public class DetectiveGUI extends JFrame {
 		}
 	}
 	
-	public class PersonGuess extends JPanel {
-		
-		public PersonGuess() {
-			setLayout(new GridLayout(1, 1));
-			setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
-			
-			JComboBox personGuessComboBox = new JComboBox();
-			
-			add(personGuessComboBox);
-	
-			personGuessComboBox.addItem("Miss Scarlet");
-			personGuessComboBox.addItem("Mr. Green");
-			personGuessComboBox.addItem("Mrs. Peacock");
-			personGuessComboBox.addItem("Colonel Mustard");
-			personGuessComboBox.addItem("Mrs. White");
-			personGuessComboBox.addItem("Professor Plum");
-			
-			
-		}
-	}
-	
-	public class RoomGuess extends JPanel {
-		
-		public RoomGuess() {
-			setLayout(new GridLayout(1, 1));
-			setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
-			
-			JComboBox roomGuessComboBox = new JComboBox();
-			
-			add(roomGuessComboBox);
-			
-			roomGuessComboBox.addItem("Conservatory");
-			roomGuessComboBox.addItem("Kitchen");
-			roomGuessComboBox.addItem("Ballroom");
-			roomGuessComboBox.addItem("Billiard Room");
-			roomGuessComboBox.addItem("Library");
-			roomGuessComboBox.addItem("Study");
-			roomGuessComboBox.addItem("Dining Room");
-			roomGuessComboBox.addItem("Lounge");
-			roomGuessComboBox.addItem("Hall");
-		}
-	}
-	
 	public class WeaponGuess extends JPanel {
-		
 		public WeaponGuess() {
 			setLayout(new GridLayout(1, 1));
 			setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
 			
-			JComboBox weaponGuessComboBox = new JComboBox();
+			JComboBox<String> weaponGuessComboBox = new JComboBox<String>();
 			
 			add(weaponGuessComboBox);
 			
@@ -168,9 +160,5 @@ public class DetectiveGUI extends JFrame {
 			weaponGuessComboBox.addItem("Rope");
 			weaponGuessComboBox.addItem("Wrench");
 		}
-	}
-	
-	public static void main(String[] args) {
-		
 	}
 }

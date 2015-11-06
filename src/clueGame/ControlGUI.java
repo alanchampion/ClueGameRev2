@@ -30,7 +30,7 @@ public class ControlGUI extends JFrame {
 		// Create Menu
 		createFileMenu();
 		
-		// Create Player cards
+		// Create Player Cards panel
 		Cards cards = new Cards();
 		add(cards, BorderLayout.EAST);
 		
@@ -52,8 +52,6 @@ public class ControlGUI extends JFrame {
 		controlPanel.add(die);
 		controlPanel.add(guess);
 		controlPanel.add(result);
-		
-		
 	}
 	
 	// Creates and populates the File Menu
@@ -90,31 +88,24 @@ public class ControlGUI extends JFrame {
 	
 	public class Header extends JPanel {
 		public Header() {
-			// Create layout
 			setLayout(new GridLayout(2, 1));
 			
-			// Create GUI elements
 			JLabel turnLabel = new JLabel("Whose turn?");
 			JTextField turn = new JTextField();
 			
-			// Add elements to JPanel
 			add(turnLabel);
 			add(turn);
 			
-			// Prevent the textfield from being user editable
 			turn.setEditable(false);
 		}
 	}
 	
 	public class nextPlayerButton extends JPanel {
 		public nextPlayerButton() {
-			// Create layout
 			setLayout(new GridLayout(1, 1));
 			
-			// Create GUI elements
 			JButton nextPlayer = new JButton("Next Player");
 			
-			// Add elements to JPanel
 			add(nextPlayer);
 		}
 	}
@@ -131,57 +122,45 @@ public class ControlGUI extends JFrame {
 	
 	public class Die extends JPanel {
 		public Die() {
-			// Create layout
 			setLayout(new GridLayout(1, 2));
 			setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 			
-			// Create GUI elements
 			JLabel rollLabel = new JLabel("Roll:");
 			JTextField roll = new JTextField();
 			
-			// Add elements to JPanel
 			add(rollLabel);
 			add(roll);
 			
-			// Prevent the textfield from being user editable
 			roll.setEditable(false);
 		}
 	}
 	
 	public class Guess extends JPanel {
 		public Guess() {
-			// Create layout
 			setLayout(new GridLayout(2, 1));
 			setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
 			
-			// Create GUI elements
 			JLabel guessLabel = new JLabel("Guess:");
 			JTextField guess = new JTextField();
 			
-			// Add elements to JPanel
 			add(guessLabel);
 			add(guess);
 			
-			// Prevent the textfield from being user editable
 			guess.setEditable(false);
 		}
 	}
 	
 	public class Result extends JPanel {
 		public Result() {
-			// Create layout
 			setLayout(new GridLayout(1, 2));
 			setBorder(new TitledBorder (new EtchedBorder(), "Guess Result"));
 						
-			// Create GUI elements
 			JLabel resultLabel = new JLabel("Response:");
 			JTextField result = new JTextField();
 						
-			// Add elements to JPanel
 			add(resultLabel);
 			add(result);
 			
-			// Prevent the textfield from being user editable
 			result.setEditable(false);
 		}
 	}
@@ -198,6 +177,10 @@ public class ControlGUI extends JFrame {
 			add(card1);
 			add(card2);
 			add(card3);
+			
+			card1.setEditable(false);
+			card2.setEditable(false);
+			card3.setEditable(false);
 		}
 	}
 
