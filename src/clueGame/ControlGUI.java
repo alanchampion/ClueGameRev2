@@ -27,7 +27,7 @@ public class ControlGUI extends JFrame {
 	
 	public ControlGUI() {
 		setTitle("Clue Control");
-		setSize(600, 700);
+		setSize(625, 725);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		detectiveGUI = new DetectiveGUI();

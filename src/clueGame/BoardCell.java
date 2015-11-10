@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 public class BoardCell {
@@ -114,6 +115,29 @@ public class BoardCell {
 			} else {
 				g.fillRect((column * TILE_SIZE) + (TILE_SIZE / 2) + 1, (row * TILE_SIZE) + 1, (TILE_SIZE / 2), TILE_SIZE);
 			}
+		}
+		
+		// Draw Room Names
+		g.setColor(Color.RED);
+		g.setFont(new Font("TimesRoman", Font.BOLD, 14));
+		if (column == 1 && row == 4) {
+			g.drawString("Conservatory", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 10 && row == 3) {
+			g.drawString("Dungeon", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 20 && row == 3) {
+			g.drawString("Solarium", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 2 && row == 17) {
+			g.drawString("Ballroom", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 12 && row == 16) {
+			g.drawString("Office", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 12 && row == 24) {
+			g.drawString("Library", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 22 && row == 24) {
+			g.drawString("Tavern", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 21 && row == 18) {
+			g.drawString("Parlor", (column * TILE_SIZE), (row * TILE_SIZE));
+		} else if (column == 21 && row == 10) {
+			g.drawString("Kitchen", (column * TILE_SIZE), (row * TILE_SIZE));
 		}
 	}
 }

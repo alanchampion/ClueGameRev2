@@ -68,12 +68,12 @@ public class Board extends JPanel {
 		players = new Player[6];
 		//startCoords = new int[6][6];
 		
+		initialize();
+		
 		ControlGUI gui = new ControlGUI();
 		gui.setVisible(true);
 		DrawPanel drawPanel = new DrawPanel();
 		gui.add(drawPanel, BorderLayout.CENTER);
-		
-		initialize();
 	}
 	
 	/**
@@ -182,9 +182,9 @@ public class Board extends JPanel {
 		players[0] = new HumanPlayer("Human", Color.RED, 0, 3);
 		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 6, 0);
 		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 15);
-		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 6, 24);
-		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 20, 24);
-		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 24, 8);
+		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 3, 25);
+		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 20, 25);
+		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 25, 8);
 		
 		// Give each player a full list of cards
 		players[0].addUnknownCards(deck);
@@ -625,8 +625,8 @@ public class Board extends JPanel {
 			super.paintComponent(g);
 			
 			// Draw Board Cells
-			for (int x = 0; x < 25; x++) {
-				for (int y = 0; y < 25; y++) {
+			for (int x = 0; x <= 25; x++) {
+				for (int y = 0; y <= 25; y++) {
 					getCellAt(x, y).draw(g);
 				}
 			}
