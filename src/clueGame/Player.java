@@ -1,10 +1,13 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Set;
 
 public abstract class Player {
+	private static final int TILE_SIZE = 20;
+	
 	protected String name;
 	protected int row;
 	protected int column;
@@ -110,5 +113,12 @@ public abstract class Player {
 	 */
 	public BoardCell getCell(char doorDirection, String name) {
 		return new BoardCell(row, column, name, doorDirection);
+	}
+	
+	public void draw(Graphics g) {
+		g.setColor(color);
+		g.fillOval((column * TILE_SIZE) + 1, (row * TILE_SIZE) + 1, TILE_SIZE, TILE_SIZE);
+		g.setColor(Color.BLACK);
+		g.drawOval((column * TILE_SIZE) + 1, (row * TILE_SIZE) + 1, TILE_SIZE, TILE_SIZE);
 	}
 }

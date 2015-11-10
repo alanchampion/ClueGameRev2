@@ -1,6 +1,11 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class BoardCell {
+	public static final int TILE_SIZE = 20;
+	
 	int row;
 	int column;
 	char initial;
@@ -84,5 +89,31 @@ public class BoardCell {
 	
 	public char getInitial(){
 		return initial;
+	}
+	
+	public void draw(Graphics g) {
+		// Draw Tile
+		if (initial == 'W') {
+			g.setColor(Color.BLACK);
+			g.drawRect((column * TILE_SIZE), (row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+		} else {
+			g.setColor(Color.GRAY);
+			g.fillRect((column * TILE_SIZE), (row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
+		}
+		
+		// Draw Door
+		if (direction != DoorDirection.NONE) {
+			g.setColor(Color.BLUE);
+			
+			if (direction == DoorDirection.DOWN) {
+				g.fillRect((column * TILE_SIZE) + 1, (row * TILE_SIZE) + (TILE_SIZE / 2) + 1, TILE_SIZE, (TILE_SIZE / 2));
+			} else if (direction == DoorDirection.UP) {
+				g.fillRect((column * TILE_SIZE) + 1, (row * TILE_SIZE) + 1, TILE_SIZE, (TILE_SIZE / 2));
+			} else if (direction == DoorDirection.LEFT) {
+				g.fillRect((column * TILE_SIZE) + 1, (row * TILE_SIZE) + 1, (TILE_SIZE / 2), TILE_SIZE);
+			} else {
+				g.fillRect((column * TILE_SIZE) + (TILE_SIZE / 2) + 1, (row * TILE_SIZE) + 1, (TILE_SIZE / 2), TILE_SIZE);
+			}
+		}
 	}
 }

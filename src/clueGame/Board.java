@@ -1,6 +1,8 @@
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,9 +14,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JPanel;
+
 import java.util.Scanner;
 
-public class Board {
+public class Board extends JPanel {
 
 	private Map<BoardCell, LinkedList<BoardCell>> adjMtx;
 	private Map<Character, String> rooms;
@@ -51,6 +55,7 @@ public class Board {
 		this.key = key;
 		this.playersFile = playersList;
 		this.weaponsFile = weaponsList;
+		
 		adjMtx = new HashMap<BoardCell, LinkedList<BoardCell>>();
 		rooms = new HashMap<Character, String>();
 		targets = new HashSet<BoardCell>();
@@ -62,6 +67,11 @@ public class Board {
 		fullDeck = new ArrayList<Card>(3);
 		players = new Player[6];
 		//startCoords = new int[6][6];
+		
+		ControlGUI gui = new ControlGUI();
+		gui.setVisible(true);
+		DrawPanel drawPanel = new DrawPanel();
+		gui.add(drawPanel, BorderLayout.CENTER);
 		
 		initialize();
 	}
@@ -172,9 +182,9 @@ public class Board {
 		players[0] = new HumanPlayer("Human", Color.RED, 0, 3);
 		players[1] = new ComputerPlayer("Computer 1", Color.ORANGE, 6, 0);
 		players[2] = new ComputerPlayer("Computer 2", Color.YELLOW, 0, 15);
-		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 3, 25);
-		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 8, 25);
-		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 20, 25);
+		players[3] = new ComputerPlayer("Computer 3", Color.GREEN, 6, 24);
+		players[4] = new ComputerPlayer("Computer 4", Color.BLUE, 20, 24);
+		players[5] = new ComputerPlayer("Computer 5", Color.MAGENTA, 24, 8);
 		
 		// Give each player a full list of cards
 		players[0].addUnknownCards(deck);
@@ -608,5 +618,27 @@ public class Board {
 			}
 		}
 		return null;
+	}
+	
+	public class DrawPanel extends JPanel {
+		public void paintComponent(Graphics g) {
+			super.paintComponent(g);
+			
+			// Draw Board Cells
+			for (int x = 0; x < 25; x++) {
+				for (int y = 0; y < 25; y++) {
+					getCellAt(x, y).draw(g);
+				}
+			}
+			
+			// Draw Players
+			for (int i = 0; i < players.length; i++) {
+				players[i].draw(g);
+			}
+		}
+	}
+	
+	public static void main(String[] args) {
+		Board board = new Board("Map.csv", "MapKey.txt", "Characters.txt", "Weapons.txt");
 	}
 }

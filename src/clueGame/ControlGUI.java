@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,13 +27,17 @@ public class ControlGUI extends JFrame {
 	
 	public ControlGUI() {
 		setTitle("Clue Control");
-		setSize(800, 300);
+		setSize(600, 700);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		detectiveGUI = new DetectiveGUI();
 		
 		// Create Menu
 		createFileMenu();
+		
+		// Create DrawPanel
+		// DrawPanel drawPanel = new DrawPanel();
+		// add(drawPanel, BorderLayout.CENTER);
 		
 		// Create Player Cards panel
 		Cards cards = new Cards();
@@ -185,10 +191,5 @@ public class ControlGUI extends JFrame {
 			card2.setEditable(false);
 			card3.setEditable(false);
 		}
-	}
-
-	public static void main(String[] args) {
-		ControlGUI gui = new ControlGUI();
-		gui.setVisible(true);
 	}
 }
