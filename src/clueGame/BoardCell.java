@@ -97,13 +97,13 @@ public class BoardCell {
 			g.setColor(Color.BLACK);
 			g.drawRect((column * TILE_SIZE), (row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 		} else {
-			g.setColor(Color.GRAY);
+			g.setColor(Color.LIGHT_GRAY);
 			g.fillRect((column * TILE_SIZE), (row * TILE_SIZE), TILE_SIZE, TILE_SIZE);
 		}
 		
 		// Draw Door
 		if (direction != DoorDirection.NONE) {
-			g.setColor(Color.BLUE);
+			g.setColor(Color.DARK_GRAY);
 			
 			if (direction == DoorDirection.DOWN) {
 				g.fillRect((column * TILE_SIZE) + 1, (row * TILE_SIZE) + (TILE_SIZE / 2) + 1, TILE_SIZE, (TILE_SIZE / 2));
